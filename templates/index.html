@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>SpamClassifier</title>
+    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/css/Highlight-Blue.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <link rel="stylesheet" href="../static/css/Navigation-Clean.css">
+    <link rel="stylesheet" href="../static/css/Newsletter-Subscription-Form.css">
+    <link rel="stylesheet" href="../static/css/styles.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-light navbar-expand-md navigation-clean">
+        <div class="container"><a class="navbar-brand" href="#">Facundo Cuzziol</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navcol-1">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"></li>
+                    <li class="nav-item"></li>
+                    <li class="nav-item"></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <section data-aos="fade-up" data-aos-once="true" class="highlight-blue">
+        <div class="container">
+            <div class="intro">
+                <h2 class="text-center">SMS Spam Classifier</h2>
+                <p class="text-center">A small classifier that predicts if your message is Spam or Ham<br>Made with scikit-learn on Python</p>
+            </div>
+            <div class="buttons"><a class="btn btn-primary" role="button" href="#" style="background: rgba(46,143,11,0.85);">View on Github</a></div>
+        </div>
+    </section>
+    <div>
+        <div>
+            <h3 class="display-4 text-center" style="text-align: center;margin: 20px 0px 0px;font-size: 42px;padding: 16px;"><strong>Try it!</strong></h3>
+            <p style="text-align: center;font-size: 19px;">Enter a SMS message and it will tell you if it is a Spam or a Ham message</p>
+            <form class="form-inline text-center" method="post" style="text-align: center;margin: 0px;margin-right: auto;margin-left: auto;width: 713px;">
+                <div class="form-group"><input id='input_1' class="form-control" type="text" style="width: 616px;border-color: rgb(0,0,0);"></div>
+                <div class="form-group"><button id='predict' class="btn btn-primary" type="submit" style="margin-left: 6px;">Predict</button></div>
+            </form>
+        </div>
+    </div>
+    <br>
+    <div>
+        <h1 id='result_category' style="margin-left: auto;margin-right: auto;text-align: center;"></h1>
+    </div>
+    <div>
+        <h6 class="display-4 text-center" style="text-align: center;margin: 20px 0px 0px;font-size: 38px;margin-top: 41px;margin-bottom: -14px;"><strong>Examples</strong></h6>
+        <div class="table-responsive" data-aos="fade-up" data-aos-once="true" style="padding: 74px;height: 396px;">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="text-center" style="width: 180px;">Category</th>
+                        <th class="text-center">SMS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-center">Spam</td>
+                        <td class="text-center" style="height: 97px;padding: 1px;"><br>URGENT! You have won a 1 week FREE membership in our $100,000 Prize Jackpot! Txt the word: CLAIM to No: 81010 T&amp;C www.dbuk.net LCCLTD POBOX 4403LDNW1A7RW18<br><br></td>
+                    </tr>
+                    <tr class="text-center">
+                        <td class="text-center">Ham</td>
+                        <td class="text-center" style="height: 96px;padding: 0px;"><br>U don't know how stubborn I am. I didn't even want to go to the hospital. I kept telling Mark I'm not a weak sucker. Hospitals are for weak suckers.<br><br></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="../static/js/jquery.min.js"></script>
+    <script src="../static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../static/js/bs-init.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        var button = document.getElementById('predict');
+        var inputt_1 = document.getElementById('input_1');
+        var result_cat = document.getElementById('result_category');
+
+
+        button.addEventListener('click', function(e) {
+            e.preventDefault()
+            var jsonData = {
+                inputt_1: inputt_1.value
+            }
+
+            console.log(JSON.stringify(jsonData))
+
+            fetch('http://localhost:5000/predictspam', {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                method: 'post',
+                body: JSON.stringify(jsonData)
+            }).then(function(response) {
+                return response.json();
+            }).then(function(data) {
+                console.log(data);
+                result_cat.innerHTML = data['result_cat'];
+            });
+
+        });
+    </script>
+</body>
+
+</html>
