@@ -1,6 +1,7 @@
 ## Spam Classifier
 Simple spam classifier made with scikit-learn and Flask on python
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/FacuCuzziol/Spam-classifier/blob/master/spamClassifier.ipynb)
 
 ### Run Steps
 
